@@ -5,95 +5,225 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bggaa"
     tools:context=".MainActivity">
-    <GridLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="1"
-        android:rowCount="3"
-        android:alignmentMode="alignMargins"
-        android:columnOrderPreserved="false"
-        >
-
-        <androidx.cardview.widget.CardView
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            app:cardCornerRadius="12dp"
-            android:layout_margin="12dp"
-            app:cardElevation="6dp"
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:background="@drawable/rounded_border"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginLeft="12dp"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp"
-                android:orientation="vertical">
-                <ImageView
-                    android:src="@drawable/dust"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp" />
-                <TextView
-                    android:layout_marginTop="12dp"
-                    android:textColor="#6f6f6f"
-                    android:textSize="18sp"
-                    android:text="Minute Dust"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            app:cardCornerRadius="12dp"
-            android:layout_margin="12dp"
-            app:cardElevation="6dp"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/showdate"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="12dp"
+                android:textSize="20dp"
+                android:text="24-10-2020"
+                android:textColor="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_below="@+id/showdate"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="12dp"
+                android:textSize="16dp"
+                android:text="20:30 น."
+                android:textColor="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="13dp"
+                android:layout_marginRight="16dp"
+                android:textSize="35dp"
+                android:text="PM 2.5"
+                android:textColor="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="#4169E1">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp"
-                android:orientation="vertical">
-                <ImageView
-                    android:src="@drawable/temp"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp" />
-                <TextView
-                    android:layout_marginTop="12dp"
-                    android:textColor="#6f6f6f"
-                    android:textSize="18sp"
-                    android:text="Temperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+            android:columnCount="1"
+            android:rowCount="3"
+            android:alignmentMode="alignMargins"
+            android:columnOrderPreserved="false">
 
-        </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            app:cardCornerRadius="12dp"
-            android:layout_margin="12dp"
-            app:cardElevation="6dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp"
-                android:orientation="vertical">
-                <ImageView
-                    android:src="@drawable/thermometer"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp" />
-                <TextView
-                    android:layout_marginTop="12dp"
-                    android:textColor="#6f6f6f"
-                    android:textSize="18sp"
-                    android:text="Calender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </GridLayout>
+            <androidx.cardview.widget.CardView
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                app:cardCornerRadius="12dp"
+                android:layout_margin="12dp"
+                app:cardElevation="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="ShowGraphDust">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="16dp"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:src="@drawable/dust"
+                            android:layout_marginLeft="8dp"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp" />
+                        <TextView
+                            android:layout_marginTop="12dp"
+                            android:textColor="#6f6f6f"
+                            android:textSize="16sp"
+                            android:text="Minute Dust"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="30dp"
+                            android:textColor="#6f6f6f"
+                            android:textSize="40dp"
+                            android:text="433"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="30dp"
+                            android:textColor="#6f6f6f"
+                            android:textSize="20dp"
+                            android:text="u9/m3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                app:cardCornerRadius="12dp"
+                android:layout_margin="12dp"
+                app:cardElevation="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="16dp"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_marginLeft="8dp"
+                            android:src="@drawable/temp"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp" />
+                        <TextView
+                            android:layout_marginTop="10dp"
+                            android:textColor="#6f6f6f"
+                            android:textSize="16sp"
+                            android:text="Minute Dust"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="30dp"
+                            android:textColor="#6f6f6f"
+                            android:textSize="45dp"
+                            android:text="25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="30dp"
+                            android:textColor="#6f6f6f"
+                            android:textSize="20dp"
+                            android:text="celsius"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </GridLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="3"
+            android:alignmentMode="alignMargins"
+            android:columnOrderPreserved="false">
+
+            <androidx.cardview.widget.CardView
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                app:cardCornerRadius="12dp"
+                android:layout_margin="12dp"
+                app:cardElevation="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:src="@drawable/mapping"
+                        android:layout_width="70dp"
+                        android:layout_height="55dp" />
+                    <TextView
+                        android:layout_marginTop="12dp"
+                        android:textColor="#6f6f6f"
+                        android:textSize="22dp"
+                        android:text="Map"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                app:cardCornerRadius="12dp"
+                android:layout_margin="12dp"
+                app:cardElevation="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rounded_button"
+                        android:textSize="24dp"
+                        android:textColor="#000000"
+                        android:text="Check"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </GridLayout>
+    </LinearLayout>
 </ScrollView>
