@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/showdate"
+                android:id="@+id/date_show"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="12dp"
                 android:textSize="20dp"
@@ -29,11 +29,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:layout_below="@+id/showdate"
+                android:id="@+id/time_show"
+                android:layout_below="@+id/date_show"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="12dp"
                 android:textSize="16dp"
-                android:text="20:30 น."
+                android:text=""
                 android:textColor="#FFFFFF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -67,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="ShowGraphDust">
                 <LinearLayout
+                    android:id="@+id/layout_dust"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
@@ -77,10 +79,11 @@
                         android:orientation="vertical">
                         <ImageView
                             android:src="@drawable/dust"
-                            android:layout_marginLeft="8dp"
+                            android:layout_marginLeft="12dp"
                             android:layout_width="55dp"
                             android:layout_height="55dp" />
                         <TextView
+                            android:id="@+id/text1"
                             android:layout_marginTop="12dp"
                             android:textColor="#6f6f6f"
                             android:textSize="16sp"
@@ -93,18 +96,20 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
                         <TextView
-                            android:layout_marginLeft="20dp"
+                            android:id="@+id/dust"
+                            android:layout_marginLeft="5dp"
                             android:layout_marginTop="30dp"
                             android:textColor="#6f6f6f"
-                            android:textSize="40dp"
-                            android:text="433"
+                            android:textSize="30dp"
+                            android:text="N/A"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <TextView
-                            android:layout_marginLeft="10dp"
+                            android:id="@+id/text2"
+                            android:layout_marginLeft="8dp"
                             android:layout_marginTop="30dp"
                             android:textColor="#6f6f6f"
-                            android:textSize="20dp"
+                            android:textSize="16dp"
                             android:text="u9/m3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
@@ -118,8 +123,10 @@
                 android:layout_margin="12dp"
                 app:cardElevation="6dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:onClick="ShowGraphTemp">
                 <LinearLayout
+                    android:id="@+id/temp_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
@@ -129,15 +136,16 @@
                         android:padding="16dp"
                         android:orientation="vertical">
                         <ImageView
-                            android:layout_marginLeft="8dp"
+                            android:layout_marginLeft="16dp"
                             android:src="@drawable/temp"
                             android:layout_width="55dp"
                             android:layout_height="55dp" />
                         <TextView
+                            android:id="@+id/text3"
                             android:layout_marginTop="10dp"
                             android:textColor="#6f6f6f"
                             android:textSize="16sp"
-                            android:text="Minute Dust"
+                            android:text="Temperature"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -146,18 +154,20 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
                         <TextView
-                            android:layout_marginLeft="20dp"
+                            android:id="@+id/temp"
+                            android:layout_marginLeft="5dp"
                             android:layout_marginTop="30dp"
                             android:textColor="#6f6f6f"
-                            android:textSize="45dp"
-                            android:text="25"
+                            android:textSize="30dp"
+                            android:text="N/A"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <TextView
-                            android:layout_marginLeft="10dp"
+                            android:id="@+id/text4"
+                            android:layout_marginLeft="8dp"
                             android:layout_marginTop="30dp"
                             android:textColor="#6f6f6f"
-                            android:textSize="20dp"
+                            android:textSize="16dp"
                             android:text="celsius"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
@@ -181,13 +191,15 @@
                 android:layout_margin="12dp"
                 app:cardElevation="6dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                >
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="5dp"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:onClick="View_Map">
                     <ImageView
                         android:src="@drawable/mapping"
                         android:layout_width="70dp"
@@ -215,6 +227,7 @@
                     android:padding="8dp"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/switch_check"
                         android:layout_width="match_parent"
                         android:gravity="center"
                         android:layout_height="match_parent"

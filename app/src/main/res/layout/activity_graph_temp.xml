@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bgg2"
-    tools:context=".GraphDustActivity">
+    tools:context=".GraphTempActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,7 +26,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="20dp"
                 android:textSize="20dp"
-                android:text="AVG: 400"
+                android:text="AVG: 25 °C"
                 android:textColor="#273746"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -42,7 +43,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="20dp"
                 android:textSize="20dp"
-                android:text="DUST"
+                android:text="Temp"
                 android:textColor="#273746"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -74,9 +75,9 @@
                         android:layout_height="wrap_content"/>
 
                     <EditText
-                        android:id="@+id/dust_start"
-                        android:textColor="#273746"
+                        android:id="@+id/temp_start"
                         android:layout_marginTop="8dp"
+                        android:textColor="#273746"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusableInTouchMode="false"
@@ -96,7 +97,7 @@
                         android:layout_height="wrap_content"/>
 
                     <EditText
-                        android:id="@+id/dust_end"
+                        android:id="@+id/temp_end"
                         android:textColor="#273746"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -108,7 +109,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <Button
-                        android:id="@+id/show1"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
@@ -121,31 +121,7 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-
-        <RelativeLayout
-            android:background="@drawable/rounded_borderv2"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginLeft="12dp"
-            android:paddingBottom="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/graph_dust"
-                    android:textSize="18dp"
-                    android:text="abc"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
-            </LinearLayout>
-        </RelativeLayout>
-
-
     </LinearLayout>
+
 
 </ScrollView>
