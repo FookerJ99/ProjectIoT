@@ -178,8 +178,8 @@ public class GraphDustActivity extends AppCompatActivity {
     private class FetchThingspeakTask_ch3 extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
+            dataFetch = "";
             try {
-                dataFetch = "";
                 URL url = new URL(urls[0]);
                 URLConnection connection;
                 connection = url.openConnection();

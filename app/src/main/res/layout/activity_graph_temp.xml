@@ -26,7 +26,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="20dp"
-                android:textSize="18dp"
+                android:textSize="16dp"
                 android:text="AVG: N/A °C"
                 android:textColor="#273746"
                 android:layout_width="wrap_content"

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -61,77 +62,112 @@ public class GraphTempActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_temp);
-
-        avg_temp = findViewById(R.id.avg_temp);
-        editText_start = findViewById(R.id.temp_start);
-        editText_end = findViewById(R.id.temp_end);
-        button = findViewById(R.id.show2);
-
-        String date_now = new SimpleDateFormat("yyyy-M-d", Locale.getDefault()).format(new Date());
-        LocalDate today = LocalDate.now();
-        today = today.plusDays(1);
-
-        start_ = date_now;
-        end_ = String.valueOf(today);
-
-        editText_start.setText(date_now);
-        editText_end.setText(date_now);
-
-        editText_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                c1 = Calendar.getInstance();
-                int days = c1.get(Calendar.DAY_OF_MONTH);
-                int months = c1.get(Calendar.MONTH);
-                int years = c1.get(Calendar.YEAR);
-                datePickerDialog_start = new DatePickerDialog(GraphTempActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        start_ = year + "-" + (month+1) + "-" + dayOfMonth;
-                        editText_start.setText(year + "-" + (month+1) + "-" + dayOfMonth);
-                    }
-                },years,months,days);
-                datePickerDialog_start.show();
+        int orientation = getResources().getConfiguration().orientation;
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE){
+            if(savedInstanceState != null){
+                dataFetch_ = savedInstanceState.getString("value"); // get Data in Rotate
             }
-        });
-
-
-        editText_end.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                c2 = Calendar.getInstance();
-                int days = c2.get(Calendar.DAY_OF_MONTH);
-                int months = c2.get(Calendar.MONTH);
-                int years = c2.get(Calendar.YEAR);
-                datePickerDialog_end = new DatePickerDialog(GraphTempActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        end_ = year + "-" + (month+1) + "-" + (dayOfMonth+1);
-                        editText_end.setText(year + "-" + (month+1) + "-" + dayOfMonth);
-                    }
-                },years,months,days);
-                datePickerDialog_end.show();
+            if(!dataFetch_.equals("")) {
+                String[] a = dataFetch_.split(",");
+                double b = 0.0;
+                GraphView graphViewLand = findViewById(R.id.graph_temp_land);
+                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+                for (int i = 0; i < a.length; i++) {
+                    series.appendData(new DataPoint((i + 1), Double.valueOf(a[i])), false, 500);
+                    b += Double.valueOf(a[i]);
+                }
+                series.setDrawDataPoints(true);
+                series.setDataPointsRadius(8);
+                graphViewLand.getViewport().setScalable(true);
+                graphViewLand.getViewport().setScrollable(true);
+                graphViewLand.getViewport().setScalableY(true);
+                // set manual X bounds
+                graphViewLand.getViewport().setXAxisBoundsManual(true);
+                graphViewLand.getViewport().setMinX(1);
+                graphViewLand.getViewport().setMaxX(5);
+                // set manual Y bounds
+                graphViewLand.getViewport().setYAxisBoundsManual(true);
+                graphViewLand.getViewport().setMinY(-40);
+                graphViewLand.getViewport().setMaxY(125);
+                graphViewLand.addSeries(series);
             }
-        });
+        }else{
+            avg_temp = findViewById(R.id.avg_temp);
+            editText_start = findViewById(R.id.temp_start);
+            editText_end = findViewById(R.id.temp_end);
+            button = findViewById(R.id.show2);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                URL_ = TEMPERATURE_URL + "start=" + start_ + "&end=" + end_;
-                FetchThingspeakTask_ch2 field2_ch_Temp = new FetchThingspeakTask_ch2();
-                field2_ch_Temp.execute(URL_);
-            }
-        });
+            String date_now = new SimpleDateFormat("yyyy-M-d", Locale.getDefault()).format(new Date());
+            LocalDate today = LocalDate.now();
+            today = today.plusDays(1);
+
+            start_ = date_now;
+            end_ = String.valueOf(today);
+
+            editText_start.setText(date_now);
+            editText_end.setText(date_now);
+
+            editText_start.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    c1 = Calendar.getInstance();
+                    int days = c1.get(Calendar.DAY_OF_MONTH);
+                    int months = c1.get(Calendar.MONTH);
+                    int years = c1.get(Calendar.YEAR);
+                    datePickerDialog_start = new DatePickerDialog(GraphTempActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            start_ = year + "-" + (month+1) + "-" + dayOfMonth;
+                            editText_start.setText(year + "-" + (month+1) + "-" + dayOfMonth);
+                        }
+                    },years,months,days);
+                    datePickerDialog_start.show();
+                }
+            });
+
+            editText_end.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    c2 = Calendar.getInstance();
+                    int days = c2.get(Calendar.DAY_OF_MONTH);
+                    int months = c2.get(Calendar.MONTH);
+                    int years = c2.get(Calendar.YEAR);
+                    datePickerDialog_end = new DatePickerDialog(GraphTempActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            end_ = year + "-" + (month+1) + "-" + (dayOfMonth+1);
+                            editText_end.setText(year + "-" + (month+1) + "-" + dayOfMonth);
+                        }
+                    },years,months,days);
+                    datePickerDialog_end.show();
+                }
+            });
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    URL_ = TEMPERATURE_URL + "start=" + start_ + "&end=" + end_;
+                    FetchThingspeakTask_ch2 field2_ch_Temp = new FetchThingspeakTask_ch2();
+                    field2_ch_Temp.execute(URL_);
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("value",dataFetch_);// Put Data in outState
     }
 
     //Temp of Thing Speak
     private class FetchThingspeakTask_ch2 extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            int j=0;
+            dataFetch_ = "";
             try {
                 URL url = new URL(urls[0]);
-                dataFetch_ = "";
                 URLConnection connection;
                 connection = url.openConnection();
                 HttpURLConnection httpConnection = (HttpURLConnection)connection;
@@ -152,8 +188,7 @@ public class GraphTempActivity extends AppCompatActivity {
                         }
                     }
                 }
-                return String.valueOf(j);
-                //return dataFetch;
+                return dataFetch_;
             } catch (MalformedURLException e) {
                 Log.d(TAG, "MalformedURLException", e);
                 return null;
@@ -172,12 +207,12 @@ public class GraphTempActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String response) {
-            Toast.makeText(GraphTempActivity.this, ": " + response ,Toast.LENGTH_SHORT).show();
             if (response.equals("")) {
-                //Toast.makeText(GraphTempActivity.this, "ไม่พบข้อมูล",Toast.LENGTH_SHORT).show();
+                Toast.makeText(GraphTempActivity.this, "ไม่พบข้อมูล",Toast.LENGTH_SHORT).show();
                 return;
             }else {
-                /*String[] a = response.split(",");
+                //Toast.makeText(GraphTempActivity.this, ":"+response,Toast.LENGTH_SHORT).show();
+                String[] a = response.split(",");
                 double b = 0.0;
                 GraphView graphView = findViewById(R.id.graph_temp);
 
@@ -197,11 +232,11 @@ public class GraphTempActivity extends AppCompatActivity {
                 graphView.getViewport().setMaxX(5);
                 // set manual Y bounds
                 graphView.getViewport().setYAxisBoundsManual(true);
-                graphView.getViewport().setMinY(250);
-                graphView.getViewport().setMaxY(600);
+                graphView.getViewport().setMinY(-40);
+                graphView.getViewport().setMaxY(125);
                 graphView.addSeries(series);
 
-                avg_temp.setText("AVG: " + String.format("%.2f",b/a.length) + " °C");*/
+                avg_temp.setText("AVG: " + String.format("%.2f",b/a.length) + " °C");
             }
         }
     }
