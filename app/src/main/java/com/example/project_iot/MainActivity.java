@@ -91,9 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 String FIELD3_URL = SWITCH_URL + number;
                 check_num = number;
 
-                field3.execute(FIELD3_URL);
-                disableSwitch();
-
                 new Timer().scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
@@ -109,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
                         field1_ch_Dust.execute(DUST_URL);
                     }
                 }, 0, 2000);
+
+                field3.execute(FIELD3_URL);
+                disableSwitch();
             }
         });
 
@@ -157,37 +157,43 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String response) {
-            if (response == null) {
-                Toast.makeText(MainActivity.this, "There was an error",Toast.LENGTH_SHORT).show();
-                return;
-            }
-            try {
-                JSONObject channel = (JSONObject) new JSONTokener(response).nextValue();
-                if(channel.has("field1")) {
-                    String status = channel.getString("field1");
-                    if(!status.equals("null")){
-                        dust.setText(channel.getString("field1"));
-                        double d = Double.valueOf(channel.getString("field1"));
-                        tx1 = findViewById(R.id.text1);
-                        tx2 = findViewById(R.id.text2);
-                        dust_layout = findViewById(R.id.layout_dust);
-                        if(d>400){
-                            tx1.setTextColor(Color.parseColor("#FFFFFF"));
-                            tx2.setTextColor(Color.parseColor("#FFFFFF"));
-                            dust.setTextColor(Color.parseColor("#FFFFFF"));
+            if (!response.equals("-1\n")) {
+                if (response == null) {
+                    Toast.makeText(MainActivity.this, "There was an error", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    JSONObject channel = (JSONObject) new JSONTokener(response).nextValue();
+                    if (channel.has("field1")) {
+                        String status = channel.getString("field1");
+                        if (!status.equals("")) {
+                            dust.setText(channel.getString("field1"));
+                            double d = Double.valueOf(channel.getString("field1"));
+                            tx1 = findViewById(R.id.text1);
+                            tx2 = findViewById(R.id.text2);
+                            dust_layout = findViewById(R.id.layout_dust);
+                            if (d > 400) {
+                                tx1.setTextColor(Color.parseColor("#FFFFFF"));
+                                tx2.setTextColor(Color.parseColor("#FFFFFF"));
+                                dust.setTextColor(Color.parseColor("#FFFFFF"));
 
-                            dust_layout.setBackgroundColor(Color.parseColor("#E74C3C"));
-                        }else{
-                            tx1.setTextColor(Color.parseColor("#6f6f6f"));
-                            tx2.setTextColor(Color.parseColor("#6f6f6f"));
-                            dust.setTextColor(Color.parseColor("#6f6f6f"));
+                                dust_layout.setBackgroundColor(Color.parseColor("#E74C3C"));
+                            } else {
+                                tx1.setTextColor(Color.parseColor("#6f6f6f"));
+                                tx2.setTextColor(Color.parseColor("#6f6f6f"));
+                                dust.setTextColor(Color.parseColor("#6f6f6f"));
 
-                            dust_layout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                                dust_layout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                            }
+                        }else {
+                            Toast.makeText(MainActivity.this, "ไม่พบข้อมูลของค่าฝุ่น PM 2.5", Toast.LENGTH_SHORT).show();
                         }
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }else{
+                Toast.makeText(MainActivity.this, "ไม่พบข้อมูลของค่าฝุ่น PM 2.5", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -217,50 +223,56 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String response) {
-            if (response == null) {
-                Toast.makeText(MainActivity.this, "There was an error",Toast.LENGTH_SHORT).show();
-                return;
-            }
-            try {
-                JSONObject channel = (JSONObject) new JSONTokener(response).nextValue();
-                if(channel.has("field2")) {
-                    String status = channel.getString("field2");
-                    if(!status.equals("null")){
-                        temp.setText(channel.getString("field2"));
-                        double t = Double.valueOf(channel.getString("field2"));
-                        tx3 = findViewById(R.id.text3);
-                        tx4 = findViewById(R.id.text4);
-                        temp_layout = findViewById(R.id.temp_layout);
-                        if(t<0){
-                            tx3.setTextColor(Color.parseColor("#FFFFFF"));
-                            tx4.setTextColor(Color.parseColor("#FFFFFF"));
-                            temp.setTextColor(Color.parseColor("#FFFFFF"));
-                            temp_layout.setBackgroundColor(Color.parseColor("#303F9F"));
-                        }else if(t<20){
-                            tx3.setTextColor(Color.parseColor("#37474F"));
-                            tx4.setTextColor(Color.parseColor("#37474F"));
-                            temp.setTextColor(Color.parseColor("#37474F"));
-                            temp_layout.setBackgroundColor(Color.parseColor("#1E88E5"));
-                        }else if(t<28){
-                            tx3.setTextColor(Color.parseColor("#37474F"));
-                            tx4.setTextColor(Color.parseColor("#37474F"));
-                            temp.setTextColor(Color.parseColor("#37474F"));
-                            temp_layout.setBackgroundColor(Color.parseColor("#BBDEFB"));
-                        }else if(t<35){
-                            tx3.setTextColor(Color.parseColor("#37474F"));
-                            tx4.setTextColor(Color.parseColor("#37474F"));
-                            temp.setTextColor(Color.parseColor("#37474F"));
-                            temp_layout.setBackgroundColor(Color.parseColor("#FF8A65"));
+            if (!response.equals("-1\n")) {
+                if (response == null) {
+                    Toast.makeText(MainActivity.this, "There was an error", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    JSONObject channel = (JSONObject) new JSONTokener(response).nextValue();
+                    if (channel.has("field2")) {
+                        String status = channel.getString("field2");
+                        if (!status.equals("")) {
+                            temp.setText(channel.getString("field2"));
+                            double t = Double.valueOf(channel.getString("field2"));
+                            tx3 = findViewById(R.id.text3);
+                            tx4 = findViewById(R.id.text4);
+                            temp_layout = findViewById(R.id.temp_layout);
+                            if (t < 0) {
+                                tx3.setTextColor(Color.parseColor("#FFFFFF"));
+                                tx4.setTextColor(Color.parseColor("#FFFFFF"));
+                                temp.setTextColor(Color.parseColor("#FFFFFF"));
+                                temp_layout.setBackgroundColor(Color.parseColor("#303F9F"));
+                            } else if (t < 20) {
+                                tx3.setTextColor(Color.parseColor("#37474F"));
+                                tx4.setTextColor(Color.parseColor("#37474F"));
+                                temp.setTextColor(Color.parseColor("#37474F"));
+                                temp_layout.setBackgroundColor(Color.parseColor("#1E88E5"));
+                            } else if (t < 28) {
+                                tx3.setTextColor(Color.parseColor("#37474F"));
+                                tx4.setTextColor(Color.parseColor("#37474F"));
+                                temp.setTextColor(Color.parseColor("#37474F"));
+                                temp_layout.setBackgroundColor(Color.parseColor("#BBDEFB"));
+                            } else if (t < 35) {
+                                tx3.setTextColor(Color.parseColor("#37474F"));
+                                tx4.setTextColor(Color.parseColor("#37474F"));
+                                temp.setTextColor(Color.parseColor("#37474F"));
+                                temp_layout.setBackgroundColor(Color.parseColor("#FF8A65"));
+                            } else {
+                                tx3.setTextColor(Color.parseColor("#FFFFFF"));
+                                tx4.setTextColor(Color.parseColor("#FFFFFF"));
+                                temp.setTextColor(Color.parseColor("#FFFFFF"));
+                                temp_layout.setBackgroundColor(Color.parseColor("#F44336"));
+                            }
                         }else{
-                            tx3.setTextColor(Color.parseColor("#FFFFFF"));
-                            tx4.setTextColor(Color.parseColor("#FFFFFF"));
-                            temp.setTextColor(Color.parseColor("#FFFFFF"));
-                            temp_layout.setBackgroundColor(Color.parseColor("#F44336"));
+                            Toast.makeText(MainActivity.this, "ไม่พบข้อมูลของอุณหภูมิ", Toast.LENGTH_SHORT).show();
                         }
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }else{
+                Toast.makeText(MainActivity.this, "ไม่พบข้อมูลของอุณหภูมิ", Toast.LENGTH_SHORT).show();
             }
         }
     }

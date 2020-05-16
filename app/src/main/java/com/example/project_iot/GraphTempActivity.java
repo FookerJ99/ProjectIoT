@@ -52,8 +52,9 @@ public class GraphTempActivity extends AppCompatActivity {
     DatePickerDialog datePickerDialog_start,datePickerDialog_end;
     EditText editText_start,editText_end;
     TextView avg_temp;
+    double avg;
     Button button;
-    String start_, end_, URL_,dataFetch_ = "";
+    String start_, end_, URL_,dataFetch_ = "",date_end_state;
     Calendar c1,c2;
     private static final String TAG = "TEMP";
     private static final String TEMPERATURE_URL = "https://api.thingspeak.com/channels/1053925/field/2.xml?";
@@ -66,6 +67,10 @@ public class GraphTempActivity extends AppCompatActivity {
         if(orientation == Configuration.ORIENTATION_LANDSCAPE){
             if(savedInstanceState != null){
                 dataFetch_ = savedInstanceState.getString("value"); // get Data in Rotate
+                start_ = savedInstanceState.getString("date_start");
+                end_ = savedInstanceState.getString("date_end");
+                date_end_state = savedInstanceState.getString("date_end_state");
+                avg = savedInstanceState.getDouble("avg");
             }
             if(!dataFetch_.equals("")) {
                 String[] a = dataFetch_.split(",");
@@ -78,6 +83,7 @@ public class GraphTempActivity extends AppCompatActivity {
                 }
                 series.setDrawDataPoints(true);
                 series.setDataPointsRadius(8);
+                graphViewLand.removeAllSeries();
                 graphViewLand.getViewport().setScalable(true);
                 graphViewLand.getViewport().setScrollable(true);
                 graphViewLand.getViewport().setScalableY(true);
@@ -103,9 +109,46 @@ public class GraphTempActivity extends AppCompatActivity {
 
             start_ = date_now;
             end_ = String.valueOf(today);
+            date_end_state = date_now;
 
             editText_start.setText(date_now);
             editText_end.setText(date_now);
+            if(savedInstanceState != null){
+                dataFetch_ = savedInstanceState.getString("value"); // get Data in Rotate
+                start_ = savedInstanceState.getString("date_start");
+                end_ = savedInstanceState.getString("date_end");
+                date_end_state = savedInstanceState.getString("date_end_state");
+                avg = savedInstanceState.getDouble("avg");
+
+                editText_start.setText(start_);
+                editText_end.setText(date_end_state);
+            }
+            if(!dataFetch_.equals("")) {
+                String[] a = dataFetch_.split(",");
+                double b = 0.0;
+                GraphView graphView = findViewById(R.id.graph_temp);
+                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+                for (int i = 0; i < a.length; i++) {
+                    series.appendData(new DataPoint((i + 1), Double.valueOf(a[i])), false, 500);
+                    b += Double.valueOf(a[i]);
+                }
+                series.setDrawDataPoints(true);
+                series.setDataPointsRadius(8);
+                graphView.removeAllSeries();
+                graphView.getViewport().setScalable(true);
+                graphView.getViewport().setScrollable(true);
+                graphView.getViewport().setScalableY(true);
+                // set manual X bounds
+                graphView.getViewport().setXAxisBoundsManual(true);
+                graphView.getViewport().setMinX(1);
+                graphView.getViewport().setMaxX(5);
+                // set manual Y bounds
+                graphView.getViewport().setYAxisBoundsManual(true);
+                graphView.getViewport().setMinY(-40);
+                graphView.getViewport().setMaxY(125);
+                graphView.addSeries(series);
+                avg_temp.setText("AVG: " + String.format("%.2f",avg) + " °C");
+            }
 
             editText_start.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -157,7 +200,10 @@ public class GraphTempActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+        outState.putDouble("avg",avg);
+        outState.putString("date_start",start_);
+        outState.putString("date_end",end_);
+        outState.putString("date_end_state",date_end_state);
         outState.putString("value",dataFetch_);// Put Data in outState
     }
 
@@ -184,7 +230,10 @@ public class GraphTempActivity extends AppCompatActivity {
                         for (int i = 0 ; i < nl.getLength(); i++) {
                             Element entry = (Element)nl.item(i);
                             Element temp = (Element)entry.getElementsByTagName("field2").item(0);
-                            dataFetch_ += temp.getFirstChild().getNodeValue() + ",";
+
+                            if(!temp.getAttribute("field2").equals("")) {
+                                dataFetch_ += temp.getFirstChild().getNodeValue() + ",";
+                            }
                         }
                     }
                 }
@@ -207,11 +256,11 @@ public class GraphTempActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String response) {
-            if (response.equals("")) {
+
+            /*if (response.equals("")) {
                 Toast.makeText(GraphTempActivity.this, "ไม่พบข้อมูล",Toast.LENGTH_SHORT).show();
                 return;
             }else {
-                //Toast.makeText(GraphTempActivity.this, ":"+response,Toast.LENGTH_SHORT).show();
                 String[] a = response.split(",");
                 double b = 0.0;
                 GraphView graphView = findViewById(R.id.graph_temp);
@@ -223,6 +272,7 @@ public class GraphTempActivity extends AppCompatActivity {
                 }
                 series.setDrawDataPoints(true);
                 series.setDataPointsRadius(8);
+                graphView.removeAllSeries();
                 graphView.getViewport().setScalableY(true);
                 graphView.getViewport().setScalable(true);
                 graphView.getViewport().setScrollable(true);
@@ -235,9 +285,9 @@ public class GraphTempActivity extends AppCompatActivity {
                 graphView.getViewport().setMinY(-40);
                 graphView.getViewport().setMaxY(125);
                 graphView.addSeries(series);
-
+                avg = b/a.length;
                 avg_temp.setText("AVG: " + String.format("%.2f",b/a.length) + " °C");
-            }
+            }*/
         }
     }
     public void GoHome(View view){

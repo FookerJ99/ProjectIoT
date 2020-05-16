@@ -62,8 +62,9 @@ public class GraphDustActivity extends AppCompatActivity {
     DatePickerDialog datePickerDialog_start,datePickerDialog_end;
     EditText editText_start,editText_end;
     TextView avg_dust;
+    double avg;
     Button button;
-    String start_, end_, URL_,dataFetch = "";
+    String start_, end_, URL_,dataFetch = "",date_end_state;
     Calendar c1,c2;
     private static final String TAG = "DUST";
     private static final String DUST_URL = "https://api.thingspeak.com/channels/1053927/field/1.xml?";
@@ -77,6 +78,10 @@ public class GraphDustActivity extends AppCompatActivity {
         if(orientation == Configuration.ORIENTATION_LANDSCAPE){
             if(savedInstanceState != null){
                 dataFetch = savedInstanceState.getString("value"); // get Data in Rotate
+                start_ = savedInstanceState.getString("date_start");
+                end_ = savedInstanceState.getString("date_end");
+                date_end_state = savedInstanceState.getString("date_end_state");
+                avg = savedInstanceState.getDouble("avg");
             }
             if(!dataFetch.equals("")) {
                 String[] a = dataFetch.split(",");
@@ -89,6 +94,7 @@ public class GraphDustActivity extends AppCompatActivity {
                 }
                 series.setDrawDataPoints(true);
                 series.setDataPointsRadius(8);
+                graphViewLand.removeAllSeries();
                 graphViewLand.getViewport().setScalable(true);
                 graphViewLand.getViewport().setScrollable(true);
                 graphViewLand.getViewport().setScalableY(true);
@@ -114,9 +120,46 @@ public class GraphDustActivity extends AppCompatActivity {
 
             start_ = date_now;
             end_ = String.valueOf(today);
+            date_end_state = date_now;
 
             editText_start.setText(date_now);
             editText_end.setText(date_now);
+            if(savedInstanceState != null){
+                dataFetch = savedInstanceState.getString("value"); // get Data in Rotate
+                start_ = savedInstanceState.getString("date_start");
+                end_ = savedInstanceState.getString("date_end");
+                date_end_state = savedInstanceState.getString("date_end_state");
+                avg = savedInstanceState.getDouble("avg");
+
+                editText_start.setText(start_);
+                editText_end.setText(date_end_state);
+            }
+            if(!dataFetch.equals("")) {
+                String[] a = dataFetch.split(",");
+                double b = 0.0;
+                GraphView graphView = findViewById(R.id.graph_dust);
+                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+                for (int i = 0; i < a.length; i++) {
+                    series.appendData(new DataPoint((i + 1), Double.valueOf(a[i])), false, 500);
+                    b += Double.valueOf(a[i]);
+                }
+                series.setDrawDataPoints(true);
+                series.setDataPointsRadius(8);
+                graphView.removeAllSeries();
+                graphView.getViewport().setScalable(true);
+                graphView.getViewport().setScrollable(true);
+                graphView.getViewport().setScalableY(true);
+                // set manual X bounds
+                graphView.getViewport().setXAxisBoundsManual(true);
+                graphView.getViewport().setMinX(1);
+                graphView.getViewport().setMaxX(5);
+                // set manual Y bounds
+                graphView.getViewport().setYAxisBoundsManual(true);
+                graphView.getViewport().setMinY(250);
+                graphView.getViewport().setMaxY(600);
+                graphView.addSeries(series);
+                avg_dust.setText("AVG: " + String.format("%.2f",avg));
+            }
 
             editText_start.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -148,6 +191,7 @@ public class GraphDustActivity extends AppCompatActivity {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                             end_ = year + "-" + (month+1) + "-" + (dayOfMonth+1);
+                            date_end_state = year + "-" + (month+1) + "-" + dayOfMonth;
                             editText_end.setText(year + "-" + (month+1) + "-" + dayOfMonth);
                         }
                     },years,months,days);
@@ -159,7 +203,6 @@ public class GraphDustActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     URL_ = DUST_URL + "start=" + start_ + "&end=" + end_;
-                    Toast.makeText(GraphDustActivity.this, ": " + URL_,Toast.LENGTH_SHORT).show();
                     FetchThingspeakTask_ch3 field1_ch_Dust = new FetchThingspeakTask_ch3();
                     field1_ch_Dust.execute(URL_);
                 }
@@ -170,7 +213,10 @@ public class GraphDustActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+        outState.putDouble("avg",avg);
+        outState.putString("date_start",start_);
+        outState.putString("date_end",end_);
+        outState.putString("date_end_state",date_end_state);
         outState.putString("value",dataFetch);// Put Data in outState
     }
 
@@ -237,6 +283,7 @@ public class GraphDustActivity extends AppCompatActivity {
                 }
                 series.setDrawDataPoints(true);
                 series.setDataPointsRadius(8);
+                graphView.removeAllSeries();
                 graphView.getViewport().setScalableY(true);
                 graphView.getViewport().setScalable(true);
                 graphView.getViewport().setScrollable(true);
@@ -249,7 +296,7 @@ public class GraphDustActivity extends AppCompatActivity {
                 graphView.getViewport().setMinY(250);
                 graphView.getViewport().setMaxY(600);
                 graphView.addSeries(series);
-
+                avg = b/a.length;
                 avg_dust.setText("AVG: " + String.format("%.2f",b/a.length));
             }
         }
