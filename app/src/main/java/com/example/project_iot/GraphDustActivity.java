@@ -244,8 +244,9 @@ public class GraphDustActivity extends AppCompatActivity {
                         for (int i = 0 ; i < nl.getLength(); i++) {
                             Element entry = (Element)nl.item(i);
                             Element dust = (Element)entry.getElementsByTagName("field1").item(0);
-                            dataFetch += dust.getFirstChild().getNodeValue() + ",";
-
+                            if(dust.hasChildNodes()) {
+                                dataFetch += dust.getFirstChild().getNodeValue() + ",";
+                            }
                         }
                     }
                 }

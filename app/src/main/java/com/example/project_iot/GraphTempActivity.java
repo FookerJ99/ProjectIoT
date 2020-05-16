@@ -230,8 +230,7 @@ public class GraphTempActivity extends AppCompatActivity {
                         for (int i = 0 ; i < nl.getLength(); i++) {
                             Element entry = (Element)nl.item(i);
                             Element temp = (Element)entry.getElementsByTagName("field2").item(0);
-
-                            if(!temp.getAttribute("field2").equals("")) {
+                            if(temp.hasChildNodes()) {
                                 dataFetch_ += temp.getFirstChild().getNodeValue() + ",";
                             }
                         }
@@ -256,8 +255,7 @@ public class GraphTempActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String response) {
-
-            /*if (response.equals("")) {
+            if (response.equals("")) {
                 Toast.makeText(GraphTempActivity.this, "ไม่พบข้อมูล",Toast.LENGTH_SHORT).show();
                 return;
             }else {
@@ -287,7 +285,7 @@ public class GraphTempActivity extends AppCompatActivity {
                 graphView.addSeries(series);
                 avg = b/a.length;
                 avg_temp.setText("AVG: " + String.format("%.2f",b/a.length) + " °C");
-            }*/
+            }
         }
     }
     public void GoHome(View view){

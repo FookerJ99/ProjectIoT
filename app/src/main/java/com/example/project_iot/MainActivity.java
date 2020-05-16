@@ -91,13 +91,16 @@ public class MainActivity extends AppCompatActivity {
                 String FIELD3_URL = SWITCH_URL + number;
                 check_num = number;
 
+                field3.execute(FIELD3_URL);
+                disableSwitch();
+
                 new Timer().scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
                         FetchThingspeakTask_ch2 field2_ch_Temp = new FetchThingspeakTask_ch2();
                         field2_ch_Temp.execute(TEMPERATURE_URL);
                     }
-                }, 0, 2000);
+                }, 0, 1000);
 
                 new Timer().scheduleAtFixedRate(new TimerTask() {
                     @Override
@@ -105,10 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         FetchThingspeakTask_ch3 field1_ch_Dust = new FetchThingspeakTask_ch3();
                         field1_ch_Dust.execute(DUST_URL);
                     }
-                }, 0, 2000);
-
-                field3.execute(FIELD3_URL);
-                disableSwitch();
+                }, 0, 1000);
             }
         });
 
